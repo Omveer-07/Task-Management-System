@@ -1,0 +1,53 @@
+@model TaskManagementSystem.Models.TaskItem
+
+<h2>Add Task</h2>
+
+<form method="post">
+
+    <div>
+        <label>Title</label>
+        <input asp-for="Title" />
+    </div>
+
+    <br />
+
+    <div>
+        <label>Description</label>
+        <input asp-for="Description" />
+    </div>
+
+    <br />
+
+    <div>
+        <label>Due Date</label>
+        <input asp-for="DueDate" type="date" />
+    </div>
+
+    <br />
+
+    <div>
+        <label>Status</label>
+
+        <select asp-for="Status">
+            <option>Pending</option>
+            <option>In Progress</option>
+            <option>Completed</option>
+        </select>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Project</label>
+
+        <select asp-for="ProjectId"
+                asp-items="ViewBag.Projects">
+            <option value="">Select Project</option>
+        </select>
+    </div>
+
+    <br />
+
+    <button type="submit">Save</button>
+
+</form>
