@@ -1,0 +1,18 @@
+@model TaskManagementSystem.Models.Department
+
+<h2>Edit Department</h2>
+
+<form method="post">
+
+    <input type="hidden" asp-for="Id" />
+
+    <div>
+        <label>Department Name</label>
+        <input asp-for="Name" />
+    </div>
+
+    <br />
+
+    <button type="submit">Update</button>
+
+</form>

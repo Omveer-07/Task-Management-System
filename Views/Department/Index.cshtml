@@ -1,0 +1,27 @@
+@model List<TaskManagementSystem.Models.Department>
+
+<h1>Department Management</h1>
+
+<p>
+    <a href="/Department/Create">Add Department</a>
+</p>
+
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var department in Model)
+    {
+        <tr>
+            <td>@department.Id</td>
+            <td>@department.Name</td>
+            <td>
+                <a href="/Department/Edit/@department.Id">Edit</a> |
+                <a href="/Department/Delete/@department.Id">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
