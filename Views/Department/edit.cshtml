@@ -6,13 +6,17 @@
 
     <input type="hidden" asp-for="Id" />
 
-    <div>
-        <label>Department Name</label>
-        <input asp-for="Name" />
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
     </div>
 
-    <br />
+    <button type="submit" class="btn btn-primary">
+        Update
+    </button>
 
-    <button type="submit">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancel
+    </a>
 
 </form>

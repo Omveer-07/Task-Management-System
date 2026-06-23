@@ -1,26 +1,50 @@
 @model List<TaskManagementSystem.Models.Project>
 
-<h1>Projects</h1>
+<h2 class="mb-3">Project Management</h2>
 
 <p>
-    <a href="/Project/Create">Add Project</a>
+    <a asp-action="Create" class="btn btn-primary">
+        + Add Project
+    </a>
 </p>
 
-<table border="1">
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Department</th>
-    </tr>
+<table class="table table-bordered table-striped">
 
-    @foreach (var project in Model)
-    {
+    <thead class="table-dark">
         <tr>
-            <td>@project.Id</td>
-            <td>@project.Name</td>
-            <td>@project.Description</td>
-            <td>@project.Department?.Name</td>
+            <th>Id</th>
+            <th>Project Name</th>
+            <th>Description</th>
+            <th>Department</th>
+            <th width="180">Actions</th>
         </tr>
-    }
+    </thead>
+
+    <tbody>
+        @foreach (var project in Model)
+        {
+            <tr>
+                <td>@project.Id</td>
+                <td>@project.Name</td>
+                <td>@project.Description</td>
+                <td>@project.Department?.Name</td>
+
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@project.Id"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@project.Id"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Delete this project?')">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
 </table>

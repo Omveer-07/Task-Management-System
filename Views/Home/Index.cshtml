@@ -4,26 +4,57 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<h1>Task Management Dashboard</h1>
+<h1 class="mb-4">Task Management Dashboard</h1>
 
-<hr />
+<div class="row">
 
-<div>
-    <h3>Total Departments: @Model.TotalDepartments</h3>
+    <div class="col-md-4 mb-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Departments</h5>
+                <h2>@Model.TotalDepartments</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Projects</h5>
+                <h2>@Model.TotalProjects</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h5 class="card-title">Tasks</h5>
+                <h2>@Model.TotalTasks</h2>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-<div>
-    <h3>Total Projects: @Model.TotalProjects</h3>
-</div>
+<div class="row">
 
-<div>
-    <h3>Total Tasks: @Model.TotalTasks</h3>
-</div>
+    <div class="col-md-6 mb-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Pending Tasks</h5>
+                <h2>@Model.PendingTasks</h2>
+            </div>
+        </div>
+    </div>
 
-<div>
-    <h3>Pending Tasks: @Model.PendingTasks</h3>
-</div>
+    <div class="col-md-6 mb-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Completed Tasks</h5>
+                <h2>@Model.CompletedTasks</h2>
+            </div>
+        </div>
+    </div>
 
-<div>
-    <h3>Completed Tasks: @Model.CompletedTasks</h3>
 </div>

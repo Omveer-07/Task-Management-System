@@ -3,12 +3,18 @@
 <h2>Add Department</h2>
 
 <form method="post">
-    <div>
-        <label>Department Name</label>
-        <input asp-for="Name" />
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
     </div>
 
-    <br />
+    <button type="submit" class="btn btn-success">
+        Save
+    </button>
 
-    <button type="submit">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancel
+    </a>
+
 </form>
