@@ -14,4 +14,6 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<TaskItem> Tasks { get; set; }
     public DbSet<Project> Projects { get; set; }
+
+    public DbSet<Employee> Employees { get; set; }
 }

@@ -1,0 +1,27 @@
+@model TaskManagementSystem.Models.Employee
+
+<h2>Edit Employee</h2>
+
+<form method="post">
+
+    <input type="hidden" asp-for="Id"/>
+
+    <div class="mb-3">
+        <label>Name</label>
+        <input asp-for="Name" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control"/>
+    </div>
+
+    <button class="btn btn-primary">
+        Update
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancel
+    </a>
+
+</form>

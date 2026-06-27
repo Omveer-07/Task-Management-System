@@ -1,0 +1,25 @@
+@model TaskManagementSystem.Models.Employee
+
+<h2>Add Employee</h2>
+
+<form method="post">
+
+    <div class="mb-3">
+        <label>Name</label>
+        <input asp-for="Name" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control"/>
+    </div>
+
+    <button class="btn btn-success">
+        Save
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancel
+    </a>
+
+</form>

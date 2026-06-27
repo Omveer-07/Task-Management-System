@@ -1,0 +1,50 @@
+@model List<TaskManagementSystem.Models.Employee>
+
+<h2 class="mb-3">Employee Management</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        + Add Employee
+    </a>
+</p>
+
+<table class="table table-bordered table-striped">
+
+    <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th width="180">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    @foreach(var employee in Model)
+    {
+        <tr>
+            <td>@employee.Id</td>
+            <td>@employee.Name</td>
+            <td>@employee.Email</td>
+
+            <td>
+                <a asp-action="Edit"
+                   asp-route-id="@employee.Id"
+                   class="btn btn-warning btn-sm">
+                    Edit
+                </a>
+
+                <a asp-action="Delete"
+                   asp-route-id="@employee.Id"
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Delete employee?')">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    }
+
+    </tbody>
+
+</table>

@@ -15,7 +15,13 @@ public class TaskItem
 
     public string Status { get; set; } = "Pending";
 
+    public string Priority { get; set; } = "Medium";
+
     public int ProjectId { get; set; }
 
     public Project? Project { get; set; }
+
+    public int EmployeeId { get; set; }
+
+    public Employee? Employee { get; set; }
 }

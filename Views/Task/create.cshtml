@@ -18,6 +18,16 @@
     </div>
 
     <div class="mb-3">
+        <label>Priority</label>
+
+        <select asp-for="Priority" class="form-select">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
         <label>Status</label>
 
         <select asp-for="Status" class="form-select">
@@ -30,10 +40,16 @@
     <div class="mb-3">
         <label>Project</label>
 
-        <select asp-for="ProjectId"
-                asp-items="ViewBag.Projects"
-                class="form-select">
+        <select asp-for="ProjectId" asp-items="ViewBag.Projects" class="form-select">
             <option value="">Select Project</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Assign Employee</label>
+
+        <select asp-for="EmployeeId" asp-items="ViewBag.Employees" class="form-select">
+            <option value="">Select Employee</option>
         </select>
     </div>
 

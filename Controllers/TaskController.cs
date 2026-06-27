@@ -19,6 +19,7 @@ public class TaskController : Controller
     {
         var tasks = _context.Tasks
             .Include(t => t.Project)
+            .Include(t => t.Employee)
             .ToList();
 
         return View(tasks);
@@ -28,6 +29,11 @@ public class TaskController : Controller
     {
         ViewBag.Projects = new SelectList(
             _context.Projects,
+            "Id",
+            "Name");
+
+        ViewBag.Employees = new SelectList(
+            _context.Employees,
             "Id",
             "Name");
 
@@ -57,6 +63,12 @@ public class TaskController : Controller
             "Id",
             "Name",
             task.ProjectId);
+
+        ViewBag.Employees = new SelectList(
+            _context.Employees,
+            "Id",
+            "Name",
+            task.EmployeeId);
 
         return View(task);
     }

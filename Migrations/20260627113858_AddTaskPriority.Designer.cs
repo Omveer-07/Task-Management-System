@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagementSystem.Data;
 
@@ -11,9 +12,11 @@ using TaskManagementSystem.Data;
 namespace TaskManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260627113858_AddTaskPriority")]
+    partial class AddTaskPriority
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,27 +40,6 @@ namespace TaskManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
-                });
-
-            modelBuilder.Entity("TaskManagementSystem.Models.Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("TaskManagementSystem.Models.Project", b =>
@@ -101,9 +83,6 @@ namespace TaskManagementSystem.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Priority")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -120,8 +99,6 @@ namespace TaskManagementSystem.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("ProjectId");
 
@@ -141,26 +118,13 @@ namespace TaskManagementSystem.Migrations
 
             modelBuilder.Entity("TaskManagementSystem.Models.TaskItem", b =>
                 {
-                    b.HasOne("TaskManagementSystem.Models.Employee", "Employee")
-                        .WithMany("Tasks")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TaskManagementSystem.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Employee");
-
                     b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("TaskManagementSystem.Models.Employee", b =>
-                {
-                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }
