@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TaskManagementSystem.Data;
 using TaskManagementSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TaskManagementSystem.Controllers;
-
+[Authorize]
 public class ProjectController : Controller
 {
     private readonly ApplicationDbContext _context;

@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using TaskManagementSystem.Data;
 using TaskManagementSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TaskManagementSystem.Controllers;
-
+[Authorize]
 public class DepartmentController : Controller
 {
     private readonly ApplicationDbContext _context;
