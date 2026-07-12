@@ -4,7 +4,7 @@ using TaskManagementSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace TaskManagementSystem.Controllers;
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class DepartmentController : Controller
 {
     private readonly ApplicationDbContext _context;

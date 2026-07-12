@@ -18,6 +18,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using TaskManagementSystem.Data;
+using TaskManagementSystem.Models;
 
 namespace TaskManagementSystem.Areas.Identity.Pages.Account
 {
@@ -29,13 +32,15 @@ namespace TaskManagementSystem.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -43,6 +48,7 @@ namespace TaskManagementSystem.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         /// <summary>
@@ -70,6 +76,10 @@ namespace TaskManagementSystem.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+
+            [Required]
+            [Display(Name = "Full Name")]
+            public string FullName { get; set; } = string.Empty;
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -121,6 +131,33 @@ namespace TaskManagementSystem.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    // Assign Employee role
+                    await _userManager.AddToRoleAsync(user, "Employee");
+
+                    // Check if Employee already exists
+                    var employee = await _context.Employees
+                        .FirstOrDefaultAsync(e => e.Email == Input.Email);
+
+                    if (employee != null)
+                    {
+                        // Existing employee → Link Identity account
+                        employee.IdentityUserId = user.Id;
+                    }
+                    else
+                    {
+                        // New registration → Create Employee automatically
+                        employee = new Employee
+                        {
+                            Name = Input.FullName,
+                            Email = Input.Email,
+                            IdentityUserId = user.Id
+                        };
+
+                        _context.Employees.Add(employee);
+                    }
+
+                    await _context.SaveChangesAsync();
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

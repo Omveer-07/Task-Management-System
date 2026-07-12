@@ -4,28 +4,59 @@ using Microsoft.EntityFrameworkCore;
 using TaskManagementSystem.Data;
 using TaskManagementSystem.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace TaskManagementSystem.Controllers;
-[Authorize]
+
 public class TaskController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private readonly UserManager<IdentityUser> _userManager;
 
-    public TaskController(ApplicationDbContext context)
+    public TaskController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
     {
         _context = context;
+        _userManager = userManager;
     }
 
+    [Authorize]
     public IActionResult Index()
     {
-        var tasks = _context.Tasks
+        // If Admin, show all tasks
+        if (User.IsInRole("Admin"))
+        {
+            var tasks = _context.Tasks
+                .Include(t => t.Project)
+                .Include(t => t.Employee)
+                .ToList();
+
+            return View(tasks);
+        }
+
+        // Employee: get logged-in user's Identity Id
+        var identityUserId = _userManager.GetUserId(User);
+
+        // Find the employee linked to this Identity user
+        var employee = _context.Employees
+            .FirstOrDefault(e => e.IdentityUserId == identityUserId);
+
+        if (employee == null)
+        {
+            return View(new List<TaskItem>());
+        }
+
+        // Show only tasks assigned to this employee
+        var myTasks = _context.Tasks
             .Include(t => t.Project)
             .Include(t => t.Employee)
+            .Where(t => t.EmployeeId == employee.Id)
             .ToList();
 
-        return View(tasks);
+        return View(myTasks);
     }
 
+    [Authorize(Roles = "Admin")]
     public IActionResult Create()
     {
         ViewBag.Projects = new SelectList(
@@ -50,6 +81,7 @@ public class TaskController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [Authorize(Roles = "Admin")]
     public IActionResult Edit(int id)
     {
         var task = _context.Tasks.Find(id);
@@ -83,6 +115,7 @@ public class TaskController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [Authorize(Roles = "Admin")]
     public IActionResult Delete(int id)
     {
         var task = _context.Tasks.Find(id);

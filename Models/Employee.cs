@@ -12,5 +12,8 @@ public class Employee
     [Required]
     public string Email { get; set; } = string.Empty;
 
+    // Link to AspNetUsers
+    public string? IdentityUserId { get; set; }
+
     public ICollection<TaskItem>? Tasks { get; set; }
 }

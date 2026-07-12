@@ -6,7 +6,7 @@ using TaskManagementSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace TaskManagementSystem.Controllers;
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class ProjectController : Controller
 {
     private readonly ApplicationDbContext _context;
