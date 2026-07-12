@@ -115,6 +115,50 @@ public class TaskController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [Authorize(Roles = "Employee")]
+    public IActionResult UpdateStatus(int id)
+    {
+        var task = _context.Tasks
+            .Include(t => t.Project)
+            .Include(t => t.Employee)
+            .FirstOrDefault(t => t.Id == id);
+
+        if (task == null)
+            return NotFound();
+
+        // Security check:
+        var identityUserId = _userManager.GetUserId(User);
+
+        if (task.Employee?.IdentityUserId != identityUserId)
+            return Forbid();
+
+        return View(task);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Employee")]
+    public IActionResult UpdateStatus(int id, string status)
+    {
+        var task = _context.Tasks
+            .Include(t => t.Employee)
+            .FirstOrDefault(t => t.Id == id);
+
+        if (task == null)
+            return NotFound();
+
+        // Security check
+        var identityUserId = _userManager.GetUserId(User);
+
+        if (task.Employee?.IdentityUserId != identityUserId)
+            return Forbid();
+
+        task.Status = status;
+
+        _context.SaveChanges();
+
+        return RedirectToAction(nameof(Index));
+    }
+
     [Authorize(Roles = "Admin")]
     public IActionResult Delete(int id)
     {
