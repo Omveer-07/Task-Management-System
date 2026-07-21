@@ -1,60 +1,207 @@
-﻿@model TaskManagementSystem.ViewModels.DashboardViewModel
-
-@{
+﻿@{
     ViewData["Title"] = "Dashboard";
 }
 
-<h1 class="mb-4">Task Management Dashboard</h1>
+@if (User.IsInRole("Admin"))
+{
+    <h2 class="mb-4">Admin Dashboard</h2>
 
-<div class="row">
+    <div class="row g-4">
 
-    <div class="col-md-4 mb-3">
-        <div class="card text-white bg-primary">
-            <div class="card-body">
-                <h5 class="card-title">Departments</h5>
-                <h2>@Model.TotalDepartments</h2>
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-primary text-white shadow-lg border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h6 class="text-uppercase">Projects</h6>
+                            <h2>@ViewBag.TotalProjects</h2>
+                        </div>
+
+                        <i class="bi bi-folder-fill display-3"></i>
+
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-4 mb-3">
-        <div class="card text-white bg-success">
-            <div class="card-body">
-                <h5 class="card-title">Projects</h5>
-                <h2>@Model.TotalProjects</h2>
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-primary text-white shadow-lg border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h6 class="text-uppercase">Employees</h6>
+                            <h2>@ViewBag.TotalEmployees</h2>
+                        </div>
+
+                        <i class="bi bi-folder-fill display-3"></i>
+
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-4 mb-3">
-        <div class="card text-white bg-dark">
-            <div class="card-body">
-                <h5 class="card-title">Tasks</h5>
-                <h2>@Model.TotalTasks</h2>
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-primary text-white shadow-lg border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h6 class="text-uppercase">Tasks</h6>
+                            <h2>@ViewBag.TotalTasks</h2>
+                        </div>
+
+                        <i class="bi bi-folder-fill display-3"></i>
+
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-</div>
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-primary text-white shadow-lg border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
 
-<div class="row">
+                        <div>
+                            <h6 class="text-uppercase">Pending</h6>
+                            <h2>@ViewBag.TotalPendingTasks</h2>
+                        </div>
 
-    <div class="col-md-6 mb-3">
-        <div class="card text-white bg-warning">
-            <div class="card-body">
-                <h5 class="card-title">Pending Tasks</h5>
-                <h2>@Model.PendingTasks</h2>
+                        <i class="bi bi-folder-fill display-3"></i>
+
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-6 mb-3">
-        <div class="card text-white bg-info">
-            <div class="card-body">
-                <h5 class="card-title">Completed Tasks</h5>
-                <h2>@Model.CompletedTasks</h2>
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-primary text-white shadow-lg border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h6 class="text-uppercase">In Progress</h6>
+                            <h2>@ViewBag.TotalProgressTasks</h2>
+                        </div>
+
+                        <i class="bi bi-folder-fill display-3"></i>
+
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-</div>
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-primary text-white shadow-lg border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h6 class="text-uppercase">Completed</h6>
+                            <h2>@ViewBag.TotalCompletedTasks</h2>
+                        </div>
+
+                        <i class="bi bi-folder-fill display-3"></i>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+else
+{
+    <h2 class="mb-4">Employee Dashboard</h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-primary text-white shadow-lg border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h6 class="text-uppercase">My Tasks</h6>
+                            <h2>@ViewBag.MyTasks</h2>
+                        </div>
+
+                        <i class="bi bi-folder-fill display-3"></i>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-primary text-white shadow-lg border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h6 class="text-uppercase">Pending</h6>
+                            <h2>@ViewBag.MyPending</h2>
+                        </div>
+
+                        <i class="bi bi-folder-fill display-3"></i>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-primary text-white shadow-lg border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h6 class="text-uppercase">Progress</h6>
+                            <h2>@ViewBag.Myprogress</h2>
+                        </div>
+
+                        <i class="bi bi-folder-fill display-3"></i>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-primary text-white shadow-lg border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h6 class="text-uppercase">Completed</h6>
+                            <h2>@ViewBag.Mycompleted</h2>
+                        </div>
+
+                        <i class="bi bi-folder-fill display-3"></i>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card dashboard-card bg-primary text-white shadow-lg border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h6 class="text-uppercase">Due</h6>
+                            <h2>@ViewBag.Upcoming</h2>
+                        </div>
+
+                        <i class="bi bi-folder-fill display-3"></i>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}

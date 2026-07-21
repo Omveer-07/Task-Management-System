@@ -1,45 +1,75 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using TaskManagementSystem.Data;
-using TaskManagementSystem.Models;
-using TaskManagementSystem.ViewModels;
-
-namespace TaskManagementSystem.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ApplicationDbContext _context;
+    private readonly UserManager<IdentityUser> _userManager;
 
-    public HomeController(ApplicationDbContext context)
+    public HomeController(
+        ApplicationDbContext context,
+        UserManager<IdentityUser> userManager)
     {
         _context = context;
+        _userManager = userManager;
     }
 
+    [Authorize]
     public IActionResult Index()
     {
-        var model = new DashboardViewModel
+        if (User.IsInRole("Admin"))
         {
-            TotalDepartments = _context.Departments.Count(),
-            TotalProjects = _context.Projects.Count(),
-            TotalTasks = _context.Tasks.Count(),
-            PendingTasks = _context.Tasks.Count(t => t.Status == "Pending"),
-            CompletedTasks = _context.Tasks.Count(t => t.Status == "Completed")
-        };
+            ViewBag.TotalProjects = _context.Projects.Count();
+            ViewBag.TotalEmployees = _context.Employees.Count();
+            ViewBag.TotalTasks = _context.Tasks.Count();
 
-        return View(model);
-    }
+            ViewBag.PendingTasks =
+                _context.Tasks.Count(t => t.Status == "Pending");
 
-    public IActionResult Privacy()
-    {
+            ViewBag.InProgressTasks =
+                _context.Tasks.Count(t => t.Status == "In Progress");
+
+            ViewBag.CompletedTasks =
+                _context.Tasks.Count(t => t.Status == "Completed");
+        }
+        else
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var employee = _context.Employees
+                .FirstOrDefault(e => e.IdentityUserId == userId);
+
+            if (employee != null)
+            {
+                ViewBag.MyTasks =
+                    _context.Tasks.Count(t => t.EmployeeId == employee.Id);
+
+                ViewBag.MyPending =
+                    _context.Tasks.Count(t =>
+                        t.EmployeeId == employee.Id &&
+                        t.Status == "Pending");
+
+                ViewBag.MyProgress =
+                    _context.Tasks.Count(t =>
+                        t.EmployeeId == employee.Id &&
+                        t.Status == "In Progress");
+
+                ViewBag.MyCompleted =
+                    _context.Tasks.Count(t =>
+                        t.EmployeeId == employee.Id &&
+                        t.Status == "Completed");
+
+                ViewBag.Upcoming =
+                    _context.Tasks.Count(t =>
+                        t.EmployeeId == employee.Id &&
+                        t.DueDate >= DateTime.Today &&
+                        t.Status != "Completed");
+            }
+        }
+
         return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel
-        {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-        });
     }
 }
