@@ -1,12 +1,22 @@
 @model List<TaskManagementSystem.Models.TaskItem>
 
-<h2 class="mb-3">Task Management</h2>
+@if (User.IsInRole("Admin"))
+{
+    <h2 class="mb-3">Task Management</h2>
+}
+else
+{
+    <h2 class="mb-3">My Tasks</h2>
+}
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">
-        + Add Task
-    </a>
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">
+            + Add Task
+        </a>
+    </p>
+}
 
 <table class="table table-bordered table-striped">
 
