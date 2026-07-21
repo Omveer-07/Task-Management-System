@@ -34,6 +34,13 @@ public class HomeController : Controller
 
             ViewBag.CompletedTasks =
                 _context.Tasks.Count(t => t.Status == "Completed");
+
+            ViewBag.RecentTasks = _context.Tasks
+                .Include(t => t.Project)
+                .Include(t => t.Employee)
+                .OrderByDescending(t => t.Id)
+                .Take(5)
+                .ToList();
         }
         else
         {
@@ -61,6 +68,13 @@ public class HomeController : Controller
                     _context.Tasks.Count(t =>
                         t.EmployeeId == employee.Id &&
                         t.Status == "Completed");
+
+                ViewBag.RecentTasks = _context.Tasks
+                    .Include(t => t.Project)
+                    .Where(t => t.EmployeeId == employee.Id)
+                    .OrderByDescending(t => t.Id)
+                    .Take(5)
+                    .ToList();
 
                 ViewBag.Upcoming =
                     _context.Tasks.Count(t =>
